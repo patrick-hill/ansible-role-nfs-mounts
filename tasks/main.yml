@@ -1,0 +1,22 @@
+---
+- name: Stat Mount Dir
+  stat:
+    path: "{{ nfs_mount_dir }}"
+  register: nfs_dir_stat
+
+- name: Create mount dir
+  file: path={{ nfs_mount_dir }}
+        state=directory
+        owner={{ os_username }} group={{ os_username }}
+  sudo: yes
+  when: ! nfs_dir.stat.exists and nfs_server is defined
+
+- name:   NFS mounts
+  mount:  name={{ nfs_mount_dir }}/{{ item.name }}
+          src={{ item.source }}
+          fstype={{ item.type }}
+          opts={{ item.opts }}
+          state=mounted
+  with_items: "{{ nfs_shares }}"
+  sudo: yes
+  when: nfs_server is defined
