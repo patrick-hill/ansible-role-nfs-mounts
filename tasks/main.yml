@@ -2,7 +2,7 @@
 - name: Stat Mount Dir
   stat:
     path: "{{ nfs_mount_dir }}"
-  register: nfs_dir_stat
+  register: nfs_dir
 
 - name: Create mount dir
   file: path={{ nfs_mount_dir }}
