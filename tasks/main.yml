@@ -7,7 +7,6 @@
 - name: Create mount dir
   file: path={{ nfs_mount_dir }}
         state=directory
-        owner={{ os_username }} group={{ os_username }}
   become: yes
   when: ! nfs_dir.stat.exists and nfs_server is defined
 
